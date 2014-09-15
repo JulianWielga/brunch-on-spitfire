@@ -1,0 +1,19 @@
+doctype html
+html(lang='en', ng-app='app', ng-controller='MainCtrl')
+	head
+		include /partials/env
+		meta(charset='utf-8')
+		meta(http-equiv="X-UA-Compatible", content="IE=edge,chrome=1")
+		meta(name='viewport', content='width=device-width')
+		meta(name='description', content='')
+		meta(name='author', content='')
+		title(ng-bind-template='CMS | {{windowTitle}}')
+		link(rel='shortcut icon', ng-href='{{dirtyPageState}}.ico')#favicon
+		link(rel='stylesheet', href='css/vendor.css')
+		link(rel='stylesheet', href='css/app.css')
+		script(src='js/vendor.js')
+		script(src='js/config.js')
+		script(src='js/templates.js')
+		script(src='js/app.js')
+	body
+		main(ng-include="'/templates/main.html'").full-height

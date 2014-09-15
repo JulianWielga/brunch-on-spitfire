@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+        "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+
+<urlrewrite use-context="false">
+
+
+    <rule>
+        <from>^/[a-zA-Z0-9]+\.ico$</from>
+        <set name="type">favicon</set>
+    </rule>
+
+    <rule>
+        <from>^(/?)(js|css|images|fonts|sounds).*</from>
+        <set name="type">resource</set>
+    </rule>
+
+    <rule>
+        <from>^/$</from>
+        <set type="response-header" name="context">%{context-path}</set>
+        <set name="type">home</set>
+    </rule>
+
+    <rule>
+        <condition type="attribute" name="type" operator="notequal">home</condition>
+        <condition type="attribute" name="type" operator="notequal">favicon</condition>
+        <condition type="attribute" name="type" operator="notequal">resource</condition>
+        <from>^/.+$</from>
+        <to last="true">/</to>
+    </rule>
+
+</urlrewrite>
