@@ -1,0 +1,63 @@
+mixin label(display, field)
+	label.control-label.small(for!=field)&attributes(attributes)= display
+		block
+
+mixin form-group()
+	.form-group(show-errors)&attributes(attributes)
+		block
+
+mixin text(display, model)
+	+form-group
+		+label(display, attributes.id)
+		input.form-control(
+			type='text'
+			ng-model!=model
+			placeholder=display
+		)&attributes(attributes)
+
+mixin textarea(display, model)
+	+form-group
+		block
+		+label(display, attributes.id)
+		textarea.form-control(
+			rows='3'
+			ng-model!=model
+			placeholder=display
+		)&attributes(attributes)
+
+mixin datePicker(display, model)
+	+form-group
+		+label(display, attributes.id)
+		moment-date-picker(
+			placeholder!=display
+			ng-model=model
+			format='L LT'
+			mdp-start-view='month'
+			mdp-min-view='day'
+		)&attributes(attributes)
+
+mixin dbDatePicker(display, f_model, s_model)
+	+form-group
+		+label(display)
+		.input-group.two-input-group
+			moment-date-picker(
+				placeholder='Początek'
+				ng-model=f_model
+				format='L LT'
+				mdp-start-view='month'
+				mdp-min-view='day'
+			)&attributes(attributes)
+			.input-group-btn
+			moment-date-picker(
+				placeholder='Koniec'
+				ng-model=s_model
+				format='L LT'
+				mdp-start-view='month'
+				mdp-min-view='day'
+			)&attributes(attributes)
+
+
+mixin button(display, model)
+	+form-group
+		+label('hidden', attributes.id).invisible
+		button.btn&attributes(attributes)= display
