@@ -16,6 +16,7 @@ angular.module 'app', [
 	'angularMoment'
 	'RecursionHelper'
 	'RequestContext'
+	'angularFileUpload'
 
 	# environment config
 	'app.environments'
