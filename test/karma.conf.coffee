@@ -14,7 +14,7 @@ module.exports = (config) ->
 		files: [
 			"_public/js/vendor.js"
 			"_public/js/config.js"
-			"_public/js/partials.js"
+			"_public/js/templates.js"
 			"vendor/**/*.js"
 			"vendor/**/*.coffee"
 			"app/**/*.coffee"
@@ -84,4 +84,3 @@ module.exports = (config) ->
 		# Continuous Integration mode
 		# if true, Karma captures browsers, runs the tests and exits
 		singleRun: false
-
