@@ -8,7 +8,7 @@ exports.config =
 		wrapper: false
 	paths:
 		public: '_public'
-		watched: ['conf', 'app', 'test', 'vendor']
+		watched: ['conf', 'app', 'vendor']
 	files:
 		javascripts:
 			joinTo:
