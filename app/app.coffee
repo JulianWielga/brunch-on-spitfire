@@ -11,12 +11,14 @@ angular.module 'app', [
 	# angular external dependencies
 	'angular-underscore'
 	'ui.bootstrap'
-	'ui.bootstrap.datetimepicker'
 	'angularSpinner'
 	'angularMoment'
 	'RecursionHelper'
 	'RequestContext'
-	'angularFileUpload'
+	'touk.focusable'
+	'touk.dateTime'
+	'touk.userServices'
+	'touk.showErrors'
 
 	# environment config
 	'app.environments'
