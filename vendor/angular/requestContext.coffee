@@ -2,32 +2,34 @@
 
 angular.module 'RequestContext', []
 
-.factory 'requestContext', [
+.service 'requestContext', [
 	'RenderContext'
-	(RenderContext) ->
-		action = ""
-		sections = []
-		params = {}
-		previousAction = ""
-		previousParams = {}
+	class RequestContext
+		action: ""
+		sections: []
+		params: {}
+		previousAction: ""
+		previousParams: {}
 
-		getAction = -> action
+		constructor: (@RenderContext) ->
 
-		getNextSection = (prefix) ->
-			return null unless startsWith prefix
-			return sections[0] if prefix is ""
+		getAction: => @action
+
+		getNextSection: (prefix) =>
+			return null unless @startsWith prefix
+			return @sections[0] if prefix is ""
 
 			depth = prefix.split(".").length
 
-			return null if depth is sections.length
+			return null if depth is @sections.length
 
-			sections[depth]
+			@sections[depth]
 
-		getParam = (name, defaultValue) ->
+		getParam: (name, defaultValue) =>
 			defaultValue = null if angular.isUndefined(defaultValue)
-			params[name] or defaultValue
+			@params[name] or defaultValue
 
-		getParamAsInt = (name, defaultValue) ->
+		getParamAsInt: (name, defaultValue) =>
 			valueAsInt = @getParam(name, defaultValue or 0) * 1
 
 			if isNaN(valueAsInt)
@@ -35,69 +37,71 @@ angular.module 'RequestContext', []
 			else
 				valueAsInt
 
-		getRenderContext = (requestActionLocation, paramNames) ->
+		getRenderContext: (requestActionLocation, paramNames) =>
 			requestActionLocation ?= ""
 			paramNames ?= []
 			paramNames = [paramNames] unless angular.isArray(paramNames)
-			new RenderContext(this, requestActionLocation, paramNames)
+			new @RenderContext(this, requestActionLocation, paramNames)
 
-		hasActionChanged = ->
-			action isnt previousAction
+		hasActionChanged: =>
+			@action isnt @previousAction
 
-		hasParamChanged = (paramName, paramValue) ->
-			return not isParam(paramName, paramValue) unless angular.isUndefined(paramValue)
+		hasParamChanged: (paramName, paramValue) =>
+			return not @isParam(paramName, paramValue) unless angular.isUndefined(paramValue)
 
-			unless previousParams.hasOwnProperty(paramName) and params.hasOwnProperty(paramName)
+			unless @previousParams.hasOwnProperty(paramName) and @params.hasOwnProperty(paramName)
 				return true
 			else
-				return true if previousParams.hasOwnProperty(paramName) and not params.hasOwnProperty(paramName)
+				return true if @previousParams.hasOwnProperty(paramName) and not @params.hasOwnProperty(paramName)
 
-			previousParams[paramName] isnt params[paramName]
+			@previousParams[paramName] isnt @params[paramName]
 
-		haveParamsChanged = (paramNames) ->
+		haveParamsChanged: (paramNames) =>
 			for param in paramNames
-				return true if hasParamChanged param
+				return true if @hasParamChanged param
 			false
 
-		isParam = (paramName, paramValue) ->
-			params.hasOwnProperty(paramName) and (params[paramName] is paramValue)
+		isParam: (paramName, paramValue) =>
+			@params.hasOwnProperty(paramName) and (@params[paramName] is paramValue)
 
-		setContext = (newAction, newRouteParams) ->
-			previousAction = action
-			previousParams = params
+		setContext: (newAction, newRouteParams) =>
+			@previousAction = @action
+			@previousParams = @params
 
-			action = newAction
-			sections = action.split(".")
+			@action = newAction
+			@sections = @action.split(".")
 
-			params = angular.copy(newRouteParams)
+			@params = angular.copy(newRouteParams)
 
-		startsWith = (prefix) ->
-			not prefix.length or (action is prefix) or (action.indexOf(prefix + ".") is 0)
+		startsWith: (prefix) =>
+			not prefix.length or (@action is prefix) or (@action.indexOf(prefix + ".") is 0)
 
-		getNextSection: getNextSection
-		getParam: getParam
-		getParamAsInt: getParamAsInt
-		getRenderContext: getRenderContext
-		hasActionChanged: hasActionChanged
-		hasParamChanged: hasParamChanged
-		haveParamsChanged: haveParamsChanged
-		isParam: isParam
-		setContext: setContext
-		startsWith: startsWith
 ]
 
 .value 'RenderContext', (requestContext, actionPrefix, paramNames) ->
-	getNextSection = ->
+	getNextSection: ->
 		requestContext.getNextSection actionPrefix
 
-	isChangeLocal = ->
+	isChangeLocal: ->
 		requestContext.startsWith actionPrefix
 
-	isChangeRelevant = ->
+	isChangeRelevant: ->
 		return false unless requestContext.startsWith(actionPrefix)
 		return true if requestContext.hasActionChanged()
 		paramNames.length and requestContext.haveParamsChanged(paramNames)
 
-	getNextSection: getNextSection
-	isChangeLocal: isChangeLocal
-	isChangeRelevant: isChangeRelevant
+	getParam: requestContext.getParam
+	getParamAsInt: requestContext.getParamAsInt
+
+.factory 'RenderContextFactory', [
+	'requestContext', (requestContext) ->
+		(@scope, context, params) ->
+			@renderContext = requestContext.getRenderContext context, params
+			@scope.subview = @renderContext.getNextSection()
+
+			@scope.$on "requestContextChanged", =>
+				return unless @renderContext.isChangeRelevant()
+				@scope.subview = @renderContext.getNextSection()
+
+			return @renderContext
+]
