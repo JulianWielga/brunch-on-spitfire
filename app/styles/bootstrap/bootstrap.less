@@ -1,8 +1,16 @@
 @bower_path: "/bower_components/bootstrap/less";
 
+@import "_variables.less";
+
+
+/*!
+ * Bootstrap v3.3.5 (http://getbootstrap.com)
+ * Copyright 2011-2015 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
 // Core variables and mixins
 //@import "@{bower_path}/variables.less";
-@import "_variables.less";
 @import "@{bower_path}/mixins.less";
 
 // Reset and dependencies
@@ -36,8 +44,7 @@
 @import "@{bower_path}/alerts.less";
 @import "@{bower_path}/progress-bars.less";
 @import "@{bower_path}/media.less";
-//@import "@{bower_path}/list-group.less";
-@import "_list-group.less";
+@import "@{bower_path}/list-group.less";
 @import "@{bower_path}/panels.less";
 @import "@{bower_path}/responsive-embed.less";
 @import "@{bower_path}/wells.less";
@@ -52,5 +59,3 @@
 // Utility classes
 @import "@{bower_path}/utilities.less";
 @import "@{bower_path}/responsive-utilities.less";
-
-//@import "_bootswatch.less";

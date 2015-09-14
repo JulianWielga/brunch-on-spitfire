@@ -8,17 +8,15 @@ exports.config =
 		wrapper: false
 	paths:
 		public: '_public'
-		watched: ['conf', 'app', 'vendor']
+		watched: ['app', 'vendor']
 	files:
 		javascripts:
 			joinTo:
 				'js/app.js': /^app/
 				'js/vendor.js': /^(bower_components|vendor)/
-				'js/config.js': /^conf[\/\\]dev/
 			order:
 				before: [
 					'bower_components/jquery/dist/jquery.js'
-					'bower_components/underscore/underscore.js'
 				]
 
 		stylesheets:
@@ -26,7 +24,9 @@ exports.config =
 				'css/vendor.css': /^(vendor|bower_components)/
 				'css/app.css': /^(app)/
 			order:
-				before: []
+				before: [
+					'app/styles/bootstrap/bootstrap.less'
+				]
 				after: []
 
 		templates:
@@ -34,12 +34,23 @@ exports.config =
 				'js/templates.js': /^app.*[\/\\]templates[\/\\].*jade$/
 
 	plugins:
+		coffeescript:
+			bare: no
+
 		jadeNgtemplates:
 			modules: [
-				name: "app.templates"
-				pattern: /^app.*[\/\\]templates[\/\\].*jade$/
+				name: "templates"
+				pattern: /^app[\/\\]templates[\/\\].*jade$/
 				url: (path) ->
-					path.replace /.*[\/\\](.*)\.jade$/, '/templates/$1.html'
+					name = path.replace(/^app[\/\\].*templates[\/\\](.*).jade$/, '$1').replace(/[\/\\]/g, '.')
+					return "/templates/#{name}.html"
+			,
+				name: "templates.modules"
+				pattern: /^app[\/\\].*[\/\\]templates[\/\\].*jade$/
+				url: (path) ->
+					dir = path.replace(/^app[\/\\]modules[\/\\](.*)templates[\/\\].*/, '$1')
+					name = path.replace(/^app[\/\\]modules[\/\\].*templates[\/\\](.*).jade$/, '$1').replace(/[\/\\]/g, '.')
+					return "/templates/#{dir}#{name}.html"
 			]
 			jade:
 				pretty: yes
@@ -55,30 +66,24 @@ exports.config =
 				basedir: 'app'
 			htmlmin: no
 
+		assetsmanager:
+			copyTo:
+				fonts: ['bower_components/bootstrap/dist/fonts/*']
 
 	overrides:
 		production:
-			optimize: false #nie działa ta opcja na js - zawsze true
+			optimize: false
 			sourceMaps: true
 
-
-			files: # not merged with files
-				javascripts:
-					joinTo:
-						'js/app.js': /^app/
-						'js/vendor.js': /^(bower_components|vendor)/
-						'js/config.js': /^conf[\/\\]prod/
-					order:
-						before: [
-							'bower_components/jquery/dist/jquery.js'
-							'bower_components/underscore/underscore.js'
-						]
-
 	server:
-		port: 3334
-		base: '/app'
+		port: 3335
+		base: ''
 
 # export server configuration to jade processor
 process?.server = exports.config.server
-require 'git-rev'
-.long (hash) -> process?.gitHash = hash
+
+process?.git = git = {}
+gitRev = require 'git-rev'
+gitRev.long (hash) -> git.hash = hash
+gitRev.branch (name) -> git.branch = name
+gitRev.tag (name) -> git.tag = name

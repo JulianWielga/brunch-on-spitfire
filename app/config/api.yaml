@@ -1,0 +1,6 @@
+development:
+  testUrl: http://date.jsontest.com
+
+production:
+  testUrl: http://date.jsontest.com
+
