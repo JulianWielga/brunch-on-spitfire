@@ -28,7 +28,7 @@
     "auto-reload-brunch": ">= 1.0 < 2.0",
     "bower": ">= 1.4 < 1.5",
     "brunch": ">= 1.0 < 2.0",
-    "brunch-typescript": "^1.5.9",
+    "brunch-typescript": "https://github.com/JulianWielga/brunch-typescript",
     "clean-css-brunch": ">= 1.0 < 2.0",
     "constangular-brunch": "^0.1.4",
     "css-brunch": ">= 1.0 < 2.0",
