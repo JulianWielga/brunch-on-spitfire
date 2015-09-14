@@ -34,9 +34,6 @@ exports.config =
 				'js/templates.js': /^app.*[\/\\]templates[\/\\].*jade$/
 
 	plugins:
-		coffeescript:
-			bare: no
-
 		jadeNgtemplates:
 			modules: [
 				name: "templates"
