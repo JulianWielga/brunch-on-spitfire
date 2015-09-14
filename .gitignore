@@ -16,8 +16,8 @@ npm-debug.log
 node/
 
 
-# Bower stuff.
 bower_components/
+typings/
 
 coverage/
 test/test-results.xml
