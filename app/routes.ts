@@ -5,8 +5,8 @@ class Routes {
 		'$urlRouterProvider',
 	]
 
-	constructor(private $stateProvider,
-				private $urlRouterProvider) {
+	constructor(private $stateProvider:ng.ui.IStateProvider,
+				private $urlRouterProvider:ng.ui.IUrlRouterProvider) {
 		this.$urlRouterProvider.otherwise('/');
 		this.$stateProvider
 			.state('home', {

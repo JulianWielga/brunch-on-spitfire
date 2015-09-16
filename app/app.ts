@@ -11,7 +11,7 @@ angular.module('app', [
 
 	.config([
 		'$locationProvider',
-		function ($locationProvider) {
+		function ($locationProvider:ng.ILocationProvider) {
 			$locationProvider.html5Mode(true);
 		}
 	]);
