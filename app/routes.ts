@@ -1,30 +1,30 @@
-/// <reference path="../typings/tsd.d.ts" />
+class Routes {
 
-'use strict';
-
-angular.module('app.routes', [
-	'ui.router'
-])
-
-	.config([
+	public static $inject = [
 		'$stateProvider',
 		'$urlRouterProvider',
-		function ($stateProvider, $urlRouterProvider) {
-			$urlRouterProvider.otherwise('/');
+	]
 
-			$stateProvider
-				.state('home', {
-					url: '/',
-					templateUrl: '/templates/main/index.html',
-					controller: 'MainController as MC',
-					resolve: {
-						dateTime: [
-							'testResource',
-							function (test) {
-								return test.get().$promise;
-							}
-						]
-					}
-				});
-		}
-	]);
+	constructor(private $stateProvider,
+				private $urlRouterProvider) {
+		this.$urlRouterProvider.otherwise('/');
+		this.$stateProvider
+			.state('home', {
+				url: '/',
+				templateUrl: '/templates/main/index.html',
+				controller: 'MainController as MC',
+				resolve: {
+					dateTime: [
+						'testResource',
+						function (test) {
+							return test.get();//.$promise;
+						}
+					]
+				}
+			});
+	}
+}
+
+angular
+	.module('app.routes', ['ui.router'])
+	.config(Routes);

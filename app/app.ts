@@ -1,13 +1,10 @@
-/// <reference path="../typings/tsd.d.ts" />
-
-'use strict';
-
 angular.module('app', [
 	'ngResource',
 	'ngSanitize',
 	'ngMessages',
 	'ngAnimate',
 	'angular-lodash',
+	'ui.router',
 	'templates',
 	'config'
 ])
@@ -18,3 +15,5 @@ angular.module('app', [
 			$locationProvider.html5Mode(true);
 		}
 	]);
+
+
