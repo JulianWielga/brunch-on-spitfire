@@ -37,6 +37,9 @@ exports.config =
 		coffeescript:
 			bare: no
 
+		typescript:
+			useTsdBundle: yes
+
 		jadeNgtemplates:
 			modules: [
 				name: "templates"

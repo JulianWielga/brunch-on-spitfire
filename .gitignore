@@ -17,7 +17,6 @@ node/
 
 
 bower_components/
-typings/
 
 coverage/
 test/test-results.xml
