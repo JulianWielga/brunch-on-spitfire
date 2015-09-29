@@ -1,13 +1,14 @@
-angular.module('app', [
-	'ngResource',
-	'ngSanitize',
-	'ngMessages',
-	'ngAnimate',
-	'angular-lodash',
-	'ui.router',
-	'templates',
-	'config'
-])
+module app {
+	angular.module('app', [
+		'ngResource',
+		'ngSanitize',
+		'ngMessages',
+		'ngAnimate',
+		'angular-lodash',
+		'ui.router',
+		'templates',
+		'config'
+	])
 
 	.config([
 		'$locationProvider',
@@ -15,5 +16,4 @@ angular.module('app', [
 			$locationProvider.html5Mode(true);
 		}
 	]);
-
-
+}

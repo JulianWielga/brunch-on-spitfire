@@ -1,15 +1,15 @@
 h1
-   span {{MC.greet}}
+   span {{TC.greet}}
    .glyphicon.glyphicon-thumbs-up
 
-p {{MC.dateTime.date}} {{MC.dateTime.time}}
+p {{TC.dateTime.date}} {{TC.dateTime.time}}
 
 button.btn.btn-default(
-   ng-click='MC.save()'
-   ng-class="{'btn-success': MC.dateTime.$resolved}"
+   ng-click='TC.save()'
+   ng-class="{'btn-success': TC.dateTime.$resolved}"
 ) POST
 
 button.btn.btn-default(
-   ng-click='MC.save2()'
-   ng-class="{'btn-success': MC.dateTime.$resolved}"
+   ng-click='TC.save2()'
+   ng-class="{'btn-success': TC.dateTime.$resolved}"
 ) POST2
